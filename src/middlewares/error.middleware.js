@@ -1,13 +1,12 @@
 import { ApiError } from "../utilities/ApiError.js";
 
-export const errorHandler = (error,res,req,next)=>
+export const errorHandler = (error,req,res,next)=>
 {
-    const err = error;
-    if(err instanceof ApiError) return;
-    const statusCode = err.statusCode || 400;
-    const message = err.message;
-    const error = err.errors || [];
-    const options = {statusCode,error,message};
+    if(!(error instanceof ApiError)) return;
+    
+    const statusCode = error.statusCode ||500;
+    const message = error.message || 'Something went Wrong'
+    const response = new ApiError(statusCode,message,error?.errors || [] );
 
-    return res.status(400).json({...options,success:false});
+    return res.status(statusCode).json({...response,message});
 }

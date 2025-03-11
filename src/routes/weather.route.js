@@ -1,8 +1,9 @@
-import Router from 'express'
+import {Router} from 'express'
+import { weatherData } from '../controllers/weather.controller.js';
 
 const router = Router();
 
-router.get('/',()=>
-    {
-        
-    })
+router.get('/',weatherData);
+    
+
+export default router
